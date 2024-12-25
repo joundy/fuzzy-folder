@@ -9,6 +9,7 @@ import { Readable } from "stream";
 const BASE_DIR = "/home/neo";
 const FD_BIN = "/usr/bin/fd";
 const FZF_BIN = "/usr/bin/fzf";
+
 const EXCLUDE_DIRS = [
   "node_modules",
   ".git",
@@ -103,13 +104,14 @@ export function activate(context: vscode.ExtensionContext) {
       quickPicks.onDidChangeValue(async (value) => {
         const folders = await fuzzyFolders(fdBuffer, value);
         const list = bufferToStrList(folders).map((item) => item);
-        console.log(list);
         quickPicks.items = list.map((item) => ({ label: item }));
       });
 
       quickPicks.onDidAccept(() => {
         const acceptedItem = quickPicks.activeItems[0];
-        console.log({ acceptedItem });
+        const uri = `${BASE_DIR}/${acceptedItem.label}`;
+        const folderUri = vscode.Uri.file(uri);
+        vscode.commands.executeCommand("vscode.openFolder", folderUri, true);
       });
 
       quickPicks.show();
@@ -119,4 +121,4 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(commandDisposable);
 }
 
-export function deactivate() { }
+export function deactivate() {}
