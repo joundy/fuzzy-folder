@@ -1,6 +1,6 @@
 {
-  "name": "Fuzzy Folder",
-  "displayName": "fuzzy-folder",
+  "name": "fuzzy-folder",
+  "displayName": "Fuzzy Folder",
   "publisher": "Joundy",
   "repository": {
     "type": "git",
